@@ -829,9 +829,9 @@ void Shell::handleNeovimNotification(const QByteArray &name, const QVariantList&
 				activateWindow();
 
                 auto eFlags = windowFlags();
-                setWindowFlag(eFlags | Qt::WindowStaysOnTopHint);
+                setWindowFlags(eFlags | Qt::WindowStaysOnTopHint);
                 show();
-                setWindowFlag(eFlags);
+                setWindowFlags(eFlags);
                 show();
 			} else {
 				emit neovimForeground();
