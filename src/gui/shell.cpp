@@ -828,11 +828,14 @@ void Shell::handleNeovimNotification(const QByteArray &name, const QVariantList&
 				show();
 				activateWindow();
 
-                auto eFlags = windowFlags();
-                setWindowFlags(eFlags | Qt::WindowStaysOnTopHint);
-                show();
-                setWindowFlags(eFlags);
-                show();
+                HWND hwnd = (HWND)winId();
+                DWORD windowThreadProcessId = GetWindowThreadProcessId(GetForegroundWindow(),LPDWORD(0));
+                DWORD currentThreadId = GetCurrentThreadId();
+                DWORD CONST_SW_SHOW = 5;
+                AttachThreadInput(windowThreadProcessId, currentThreadId, true);
+                BringWindowToTop(hwnd);
+                ShowWindow(hwnd, CONST_SW_SHOW);
+                AttachThreadInput(windowThreadProcessId,currentThreadId, false);
 			} else {
 				emit neovimForeground();
 			}
