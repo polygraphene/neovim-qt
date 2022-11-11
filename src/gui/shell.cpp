@@ -20,6 +20,7 @@
 #include "msgpackrequest.h"
 #include "util.h"
 #include "version.h"
+#include <Windows.h>
 
 namespace NeovimQt {
 
