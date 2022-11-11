@@ -830,13 +830,18 @@ void Shell::handleNeovimNotification(const QByteArray &name, const QVariantList&
 				activateWindow();
 
                 HWND hwnd = (HWND)winId();
+                qWarning() << "Foreground hwnd: " << (intptr_t)hwnd;
                 DWORD windowThreadProcessId = GetWindowThreadProcessId(GetForegroundWindow(),LPDWORD(0));
+                qWarning() << "thread pid: " << (intptr_t)windowThreadProcessId;
                 DWORD currentThreadId = GetCurrentThreadId();
+                qWarning() << "current thread : " << (intptr_t)currentThreadId;
                 DWORD CONST_SW_SHOW = 5;
-                AttachThreadInput(windowThreadProcessId, currentThreadId, true);
+                BOOL b = AttachThreadInput(windowThreadProcessId, currentThreadId, true);
+                qWarning() << "attach1: " << b << " " << GetLastError();
                 BringWindowToTop(hwnd);
                 ShowWindow(hwnd, CONST_SW_SHOW);
-                AttachThreadInput(windowThreadProcessId,currentThreadId, false);
+                b = AttachThreadInput(windowThreadProcessId,currentThreadId, false);
+                qWarning() << "attach2: " << b << " " << GetLastError();
 			} else {
 				emit neovimForeground();
 			}
