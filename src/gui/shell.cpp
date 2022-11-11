@@ -839,6 +839,11 @@ void Shell::handleNeovimNotification(const QByteArray &name, const QVariantList&
                 BOOL b = AttachThreadInput(windowThreadProcessId, currentThreadId, true);
                 qWarning() << "attach1: " << b << " " << GetLastError();
                 BringWindowToTop(hwnd);
+				
+				setWindowState(windowState() & ~Qt::WindowMinimized);
+				show();
+				activateWindow();
+				
                 ShowWindow(hwnd, CONST_SW_SHOW);
                 b = AttachThreadInput(windowThreadProcessId,currentThreadId, false);
                 qWarning() << "attach2: " << b << " " << GetLastError();
